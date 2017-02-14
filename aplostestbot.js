@@ -71,7 +71,7 @@ function getPassword(session) {
 }
 
 function sendData(data, cb) {
-    http.get("http://local.dev/aplostestbot/saveData.php?name=" + data.name + "&email=" + data.email + "&password=" + data.password, function (res) {
+    http.get("http://local.dev/github/aplostestbot/saveData.php?name=" + data.name + "&email=" + data.email + "&password=" + data.password, function (res) {
         var msg = '';
         res.on("data", function (chunk) {
             msg += chunk;
