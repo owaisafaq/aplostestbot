@@ -2,8 +2,20 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var http = require('http');
 
+var local = true;
+
+//For HTTPS
+var https_options = {};
+if (!local) {
+    var fs = require('fs');
+    https_options = {
+        key: fs.readFileSync('/etc/letsencrypt/live/your.domain/privkey.pem'),
+        certificate: fs.readFileSync('/etc/letsencrypt/live/your.domain/fullchain.pem'),
+    };
+}
+
 // Setup Restify Server
-var server = restify.createServer();
+var server = restify.createServer(https_options);
 server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', '138.197.0.221', server.url);
 });
