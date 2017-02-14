@@ -55,6 +55,21 @@ function getEmail(session) {
     }
 }
 
+function getPassword(session) {
+    var re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    password = session.message.text;
+    if (re.test(password)) {
+        session.userData.password = password;
+        var data = session.userData;
+        sendData(data, function (msg) {
+            session.send(msg);
+            session.userData = null;
+        });
+    } else {
+        session.send("Password must contain at least 8 characters, including at least 1 number, 1 uppercase letter, 1 lower case letter and 1 special character. For example: Mybot@123");
+    }
+}
+
 function sendData(data, cb) {
     http.get("http://local.dev/aplostestbot/saveData.php?name=" + data.name + "&email=" + data.email + "&password=" + data.password, function (res) {
         var msg = '';
